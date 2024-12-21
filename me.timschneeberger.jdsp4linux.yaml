@@ -89,12 +89,13 @@ modules:
       - type: git
         url: https://github.com/Audio4Linux/JDSP4Linux
         # tag: 2.7.0
-        commit: 31f7973bdd13f00868fa6b7176f0f6099c6cddf11
+        commit: 30a30aa5ce90f97ea2c93bc372c0a67c8e3c54c8
         x-checker-data:
           type: json
           url: https://api.github.com/repos/Audio4Linux/JDSP4Linux/tags
           tag-query: first | .name
           version-query: $tag | sub("^v"; "")
+        tag: 2.7.0
     post-install:
       - install -Dm644 LICENSE $FLATPAK_DEST/share/licenses/$FLATPAK_ID
       - install -Dm644 meta/flatpak/$FLATPAK_ID.desktop $FLATPAK_DEST/share/applications/$FLATPAK_ID.desktop
