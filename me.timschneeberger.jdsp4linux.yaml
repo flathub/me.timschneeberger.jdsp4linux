@@ -70,7 +70,7 @@ modules:
         url: https://github.com/flatpak/libportal.git
         # We need the qt6 backend which is not yet included in a stable release
         # tag: 0.7.1
-        commit: 731e7410fa5765e7c4eb76a51140a19637620c13
+        commit: 8f5dc8d192f6e31dafe69e35219e3b707bde71ce
         x-checker-data:
           type: json
           url: https://api.github.com/repos/flatpak/libportal/releases/latest
@@ -78,7 +78,7 @@ modules:
           version-query: $tag | sub("^jq-"; "")
           timestamp-query: .published_at
 
-        tag: 0.9.0
+        tag: 0.9.1
   - name: jamesdsp
     buildsystem: qmake
     config-opts:
@@ -89,12 +89,13 @@ modules:
       - type: git
         url: https://github.com/Audio4Linux/JDSP4Linux
         # tag: 2.7.0
-        commit: 31f7973bdd13f00868fa6b7176f0f6099c6cddf11
+        commit: 30a30aa5ce90f97ea2c93bc372c0a67c8e3c54c8
         x-checker-data:
           type: json
           url: https://api.github.com/repos/Audio4Linux/JDSP4Linux/tags
           tag-query: first | .name
           version-query: $tag | sub("^v"; "")
+        tag: 2.7.0
     post-install:
       - install -Dm644 LICENSE $FLATPAK_DEST/share/licenses/$FLATPAK_ID
       - install -Dm644 meta/flatpak/$FLATPAK_ID.desktop $FLATPAK_DEST/share/applications/$FLATPAK_ID.desktop
