@@ -1,6 +1,6 @@
 app-id: me.timschneeberger.jdsp4linux
 runtime: org.kde.Platform
-runtime-version: '6.8'
+runtime-version: '6.10'
 sdk: org.kde.Sdk
 command: jamesdsp
 finish-args:
@@ -28,8 +28,8 @@ modules:
       - '*'
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.5.tar.xz
-        sha256: 705c6d29f4116a29bde4e36cfc1b046c92b6ef8c6dae4eaec85018747e6da5aa
+        url: https://download.gnome.org/sources/mm-common/1.0/mm-common-1.0.7.tar.xz
+        sha256: 494abfce781418259b1e9d8888c73af4de4b6f3be36cc75d9baa8baa0f2a7a39
 
   - name: sigc++
     config-opts:
@@ -38,8 +38,8 @@ modules:
       - /lib/sigc++-2.0
     sources:
       - type: archive
-        url: https://download.gnome.org/sources/libsigc++/2.12/libsigc++-2.12.0.tar.xz
-        sha256: 1c466d2e64b34f9b118976eb21b138c37ed124d0f61497df2a90ce6c3d9fa3b5
+        url: https://download.gnome.org/sources/libsigc++/2.12/libsigc++-2.12.1.tar.xz
+        sha256: a9dbee323351d109b7aee074a9cb89ca3e7bcf8ad8edef1851f4cf359bd50843
 
   - name: glibmm
     buildsystem: meson
@@ -60,7 +60,6 @@ modules:
     config-opts:
       - -Dvapi=false
       - -Ddocs=false
-      - -Dbackend-qt5=disabled
       - -Dbackend-qt6=enabled
     cleanup:
       - /lib/girepository-1.0
@@ -68,17 +67,15 @@ modules:
     sources:
       - type: git
         url: https://github.com/flatpak/libportal.git
-        # We need the qt6 backend which is not yet included in a stable release
-        # tag: 0.7.1
-        commit: 731e7410fa5765e7c4eb76a51140a19637620c13
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/flatpak/libportal/releases/latest
-          tag-query: .tag_name
-          version-query: $tag | sub("^jq-"; "")
-          timestamp-query: .published_at
-
-        tag: 0.9.0
+        commit: 796053d2eebe4532aad6bd3fd80cdf3b197806ec
+        # fix build against qt6.9+; not released yet
+        # commit from 2025-03-28, latest tag 0.9.1 from 2025-02-12
+        # x-checker-data:
+        #   type: json
+        #   url: https://api.github.com/repos/flatpak/libportal/releases/latest
+        #   tag-query: .tag_name
+        #   version-query: $tag | sub("^jq-"; "")
+        #   timestamp-query: .published_at
   - name: jamesdsp
     buildsystem: qmake
     config-opts:
@@ -87,14 +84,15 @@ modules:
       - CONFIG+=NO_CRASH_HANDLER
     sources:
       - type: git
-        url: https://github.com/Audio4Linux/JDSP4Linux
-        # tag: 2.7.0
-        commit: 31f7973bdd13f00868fa6b7176f0f6099c6cddf11
-        x-checker-data:
-          type: json
-          url: https://api.github.com/repos/Audio4Linux/JDSP4Linux/tags
-          tag-query: first | .name
-          version-query: $tag | sub("^v"; "")
+        url: https://github.com/Audio4Linux/JDSP4Linux.git
+        commit: b585084bee22fcd1f07580d5be76a176a0b595ec
+        # fix build against qt6.9+; not released yet
+        # commit from 2025-04-17, latest tag 2.7.0 from 2023-12-10
+        # x-checker-data:
+        #   type: json
+        #   url: https://api.github.com/repos/Audio4Linux/JDSP4Linux/tags
+        #   tag-query: first | .name
+        #   version-query: $tag | sub("^v"; "")
     post-install:
       - install -Dm644 LICENSE $FLATPAK_DEST/share/licenses/$FLATPAK_ID
       - install -Dm644 meta/flatpak/$FLATPAK_ID.desktop $FLATPAK_DEST/share/applications/$FLATPAK_ID.desktop
